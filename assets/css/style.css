@@ -1,0 +1,735 @@
+/* Importación de Fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap');
+
+/* Variables CSS */
+:root {
+    --primary-color: #0A0A0A; /* Negro intenso para el header y texto principal */
+    --secondary-color: #1A1A1A; /* Negro ligeramente más claro para secciones de fondo */
+    --accent-color: #C0C0C0; /* Gris plata/claro para acentos y hover */
+    --text-light: #F8F8F8; /* Blanco roto - para texto sobre fondos oscuros */
+    --text-dark: #333333; /* Gris oscuro para texto sobre fondos claros */
+    --border-light: #666666; /* Gris medio para bordes sutiles */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+
+    /* Colores adicionales cuando sea necesario (muy sutiles) */
+    --subtle-grey-bg: #EFEFEF; /* Gris muy claro para fondos de items */
+    --subtle-shadow: rgba(0, 0, 0, 0.4); /* Sombra oscura */
+}
+
+/* Estilos Generales */
+body {
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--text-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+    margin-bottom: 0.8em;
+}
+
+h1 { font-size: 3.5em; }
+h2 { font-size: 2.8em; }
+h3 { font-size: 1.8em; }
+
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    text-decoration: none;
+    color: var(--accent-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #A0A0A0; /* Un gris aún más oscuro para el hover, manteniendo la escala */
+}
+
+/* Botones */
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 15px 35px;
+    border-radius: 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 2px solid transparent;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    border-color: var(--accent-color);
+}
+
+.btn-primary:hover {
+    background-color: #A0A0A0; /* Un gris más oscuro para el hover */
+    color: var(--text-light);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+
+/* Header */
+.header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 18px 0;
+    box-shadow: 0 4px 10px var(--subtle-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+/* Navegación Principal */
+.nav-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Por defecto, se muestra en desktop */
+}
+
+.nav-menu li {
+    margin-left: 40px;
+}
+
+.nav-menu a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 1.05em;
+    padding: 5px 0;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after,
+.nav-menu a.active::after {
+    width: 100%;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    color: var(--accent-color);
+}
+
+/* Menú Hamburguesa */
+.hamburger {
+    display: none; /* Oculto por defecto en desktop */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 35px;
+    height: 28px;
+    cursor: pointer;
+    z-index: 1100;
+    padding: 5px;
+}
+
+.hamburger .bar {
+    width: 100%;
+    height: 3px;
+    background-color: var(--accent-color);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Estado activo del menú hamburguesa */
+.hamburger.active .bar:nth-child(1) {
+    transform: translateY(12px) rotate(45deg);
+}
+
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: translateY(-12px) rotate(-45deg);
+}
+
+/* Menú Responsivo */
+.nav-menu.responsive { /* Este es el estado que se activa con JS */
+    display: flex; /* Se fuerza a flex para que se muestre como columna */
+    flex-direction: column;
+    position: absolute;
+    top: 70px; /* Ajusta según la altura de tu header */
+    left: 0;
+    width: 100%;
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 10px var(--subtle-shadow);
+    padding: 25px 0;
+    text-align: center;
+    transform: translateY(-100%); /* Inicialmente fuera de la vista */
+    transition: transform 0.4s ease-out;
+}
+
+.nav-menu.responsive.show {
+    transform: translateY(0); /* Desliza hacia abajo */
+}
+
+.nav-menu.responsive li {
+    margin: 15px 0;
+}
+
+.nav-menu.responsive a {
+    font-size: 1.2em;
+}
+
+
+/* Secciones de Contenido */
+.section {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.section:nth-of-type(even) { /* Para alternar colores de fondo */
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+}
+
+.section:nth-of-type(even) h2,
+.section:nth-of-type(even) h3 {
+    color: var(--accent-color);
+}
+
+.section:nth-of-type(even) p {
+    color: var(--text-light);
+}
+
+/* Hero Section - Home Page */
+.hero-home {
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('https://via.placeholder.com/1800x900/151515/F8F8F8?text=Industrial+Real+Estate+Antioquia') no-repeat center center/cover;
+    color: var(--text-light);
+    text-align: center;
+    padding: 150px 20px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    z-index: 10;
+}
+
+.hero-home h1 {
+    font-size: 4.2em;
+    margin-bottom: 25px;
+    line-height: 1.2;
+    color: var(--accent-color);
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+}
+
+.hero-home p {
+    font-size: 1.5em;
+    max-width: 800px;
+    margin-bottom: 40px;
+    font-weight: 300;
+}
+
+/* Hero Section - Other Pages */
+.hero-page {
+    background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('https://via.placeholder.com/1800x400/101010/F8F8F8?text=Balduino+Page+Header') no-repeat center center/cover;
+    color: var(--text-light);
+    text-align: center;
+    padding: 100px 20px;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-page h1 {
+    font-size: 3.2em;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.hero-page p {
+    font-size: 1.2em;
+    max-width: 700px;
+    font-weight: 300;
+}
+
+
+/* About Us Section */
+.about-us p {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+    font-size: 1.1em;
+    color: var(--text-dark);
+}
+
+.mission-vision {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.mv-item {
+    flex: 1;
+    max-width: 450px;
+    padding: 30px;
+    background-color:  black; /*var(--subtle-grey-bg);  Un gris muy sutil para el fondo */
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.mv-item:hover {
+    transform: translateY(-8px);
+}
+
+.mv-item i {
+    font-size: 2.5em;
+    color: var(--primary-color); /* Íconos en negro para contraste */
+    margin-bottom: 15px;
+    display: block;
+}
+
+.mv-item h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+.mv-item p {
+    font-size: 0.95em;
+    color: var(--text-dark);
+    margin-bottom: 0;
+}
+
+/* Call to Action Section (index.html) */
+.call-to-action {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 100px 20px;
+}
+
+.call-to-action h2 {
+    color: var(--accent-color);
+    font-size: 2.8em;
+    margin-bottom: 20px;
+}
+
+.call-to-action p {
+    font-size: 1.3em;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+    font-weight: 300;
+}
+
+/* Services Page - Service List */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.service-item {
+    background-color: black; /*var(--subtle-grey-bg);*/
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.service-item i {
+    font-size: 3em;
+    color: var(--primary-color); /* Íconos en negro */
+    margin-bottom: 20px;
+    display: block;
+}
+
+.service-item h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.service-item p {
+    color: var(--text-dark);
+    font-size: 0.95em;
+    margin-bottom: 0;
+}
+
+
+/* Portafolio Page - Grid */
+.portfolio-grid .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.portfolio-item {
+    background-color: black; /*var(--subtle-grey-bg);*/
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    /* Las imágenes placeholder en el HTML se ajustarán al nuevo branding */
+}
+
+.portfolio-item h3 {
+    padding: 15px 20px 0;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.portfolio-item p {
+    padding: 0 20px 20px;
+    color: var(--text-dark);
+    font-size: 0.9em;
+}
+
+.portfolio-note {
+    margin-top: 50px;
+    font-style: italic;
+    color: var(--border-light); /* Un gris para el texto de nota */
+    font-size: 0.9em;
+}
+
+
+/* Contact Page - Form */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Info a la izquierda, formulario a la derecha */
+    gap: 60px;
+    text-align: left;
+    margin-top: 50px;
+}
+
+.contact-info {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info h3 {
+    color: var(--accent-color);
+    margin-bottom: 30px;
+}
+
+.contact-info p {
+    font-size: 1.05em;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-info p i {
+    margin-right: 15px;
+    color: var(--accent-color);
+    font-size: 1.3em;
+}
+
+.social-links {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.social-links a {
+    color: var(--text-light);
+    font-size: 1.8em;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+.contact-form {
+    background-color: var(--subtle-grey-bg);
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form h3 {
+    color: var(--primary-color);
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    font-family: var(--font-body);
+    font-size: 1em;
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho */
+    background-color: #FFFFFF; /* Fondo blanco para campos de entrada */
+    color: var(--text-dark);
+}
+
+.form-group textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 120px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color); /* Borde oscuro al enfocar */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form .btn-primary {
+    width: auto;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.map-container {
+    margin-top: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 450px;
+    border: none;
+}
+
+
+/* Footer */
+.footer {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 30px 0;
+    text-align: center;
+    font-size: 0.9em;
+    border-top: 5px solid var(--accent-color);
+}
+
+.footer p {
+    margin: 0;
+    color: var(--text-light);
+}
+
+
+/* Media Queries para Responsive */
+@media (max-width: 992px) {
+    h1 { font-size: 3em; }
+    h2 { font-size: 2.2em; }
+    h3 { font-size: 1.6em; }
+
+    .hero-home {
+        padding: 120px 20px;
+        min-height: 500px;
+    }
+    .hero-home h1 {
+        font-size: 3.5em;
+    }
+    .hero-home p {
+        font-size: 1.3em;
+    }
+
+    .hero-page {
+        padding: 80px 20px;
+        min-height: 200px;
+    }
+    .hero-page h1 {
+        font-size: 2.5em;
+    }
+    .hero-page p {
+        font-size: 1.1em;
+    }
+
+    .mission-vision {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .mv-item {
+        max-width: 600px;
+    }
+
+    .service-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr; /* Columna única en móvil */
+        gap: 40px;
+    }
+
+    .contact-info, .contact-form {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        /* En pantallas pequeñas, el menú de navegación normal debe estar oculto por defecto */
+        display: none; 
+        /* !IMPORTANTE: El display: flex de .nav-menu.responsive.show lo controlará */
+    }
+
+    .hamburger {
+        display: flex; /* Muestra el menú hamburguesa en pantallas pequeñas */
+    }
+
+    .header .container {
+        padding: 0 20px;
+    }
+
+    /* .nav-menu.responsive ya tiene display: flex y transform; solo necesita la clase .show para activarse */
+    /* Aseguramos que la transición de despliegue se vea bien */
+    .nav-menu.responsive {
+        /* display: flex; ya está en la definición de .nav-menu.responsive */
+        /* transform: translateY(-100%); ya está en la definición de .nav-menu.responsive */
+        /* transition: transform 0.4s ease-out; ya está en la definición de .nav-menu.responsive */
+    }
+
+
+    h1 { font-size: 2.8em; }
+    h2 { font-size: 2em; }
+    h3 { font-size: 1.5em; }
+
+    .hero-home {
+        padding: 100px 20px;
+        min-height: 450px;
+    }
+    .hero-home h1 {
+        font-size: 3em;
+    }
+    .hero-home p {
+        font-size: 1.1em;
+    }
+
+    .section {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 2.2em; }
+    h2 { font-size: 1.8em; }
+    h3 { font-size: 1.3em; }
+
+    .hero-home {
+        padding: 80px 15px;
+        min-height: 400px;
+    }
+    .hero-home h1 {
+        font-size: 2.5em;
+    }
+    .hero-home p {
+        font-size: 1em;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 12px 25px;
+        font-size: 0.9em;
+    }
+
+    .service-grid, .portfolio-grid .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .mv-item, .service-item, .portfolio-item, .contact-info, .contact-form {
+        padding: 25px;
+    }
+
+    .logo {
+        font-size: 1.8em;
+    }
+
+    .fas fa-handshake{
+        background-color: white;
+    }
+}
